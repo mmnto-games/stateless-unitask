@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 
 namespace Stateless
 {
@@ -9,7 +9,7 @@ namespace Stateless
         class OnTransitionedEvent
         {
             event Action<Transition> _onTransitioned;
-            readonly List<Func<Transition, Task>> _onTransitionedAsync = new List<Func<Transition, Task>>();
+            readonly List<Func<Transition, UniTask>> _onTransitionedAsync = new List<Func<Transition, UniTask>>();
             
             public void Invoke(Transition transition)
             {
@@ -22,12 +22,12 @@ namespace Stateless
             }
 
 #if TASKS
-            public async Task InvokeAsync(Transition transition, bool retainSynchronizationContext)
+            public async UniTask InvokeAsync(Transition transition)
             {
                 _onTransitioned?.Invoke(transition);
 
                 foreach (var callback in _onTransitionedAsync)
-                    await callback(transition).ConfigureAwait(retainSynchronizationContext);
+                    await callback(transition);
             }
 #endif
 
@@ -36,7 +36,7 @@ namespace Stateless
                 _onTransitioned += action;
             }
 
-            public void Register(Func<Transition, Task> action)
+            public void Register(Func<Transition, UniTask> action)
             {
                 _onTransitionedAsync.Add(action);
             }

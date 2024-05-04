@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 
 namespace Stateless
 {
@@ -9,7 +9,7 @@ namespace Stateless
         abstract class UnhandledTriggerAction
         {
             public abstract void Execute(TState state, TTrigger trigger, ICollection<string> unmetGuards);
-            public abstract Task ExecuteAsync(TState state, TTrigger trigger, ICollection<string> unmetGuards);
+            public abstract UniTask ExecuteAsync(TState state, TTrigger trigger, ICollection<string> unmetGuards);
 
             internal class Sync : UnhandledTriggerAction
             {
@@ -25,7 +25,7 @@ namespace Stateless
                     _action(state, trigger, unmetGuards);
                 }
 
-                public override Task ExecuteAsync(TState state, TTrigger trigger, ICollection<string> unmetGuards)
+                public override UniTask ExecuteAsync(TState state, TTrigger trigger, ICollection<string> unmetGuards)
                 {
                     Execute(state, trigger, unmetGuards);
                     return TaskResult.Done;
@@ -34,9 +34,9 @@ namespace Stateless
 
             internal class Async : UnhandledTriggerAction
             {
-                readonly Func<TState, TTrigger, ICollection<string>, Task> _action;
+                readonly Func<TState, TTrigger, ICollection<string>, UniTask> _action;
 
-                internal Async(Func<TState, TTrigger, ICollection<string>, Task> action)
+                internal Async(Func<TState, TTrigger, ICollection<string>, UniTask> action)
                 {
                     _action = action;
                 }
@@ -48,7 +48,7 @@ namespace Stateless
                         "Use asynchronous version of Fire [FireAsync]");
                 }
 
-                public override Task ExecuteAsync(TState state, TTrigger trigger, ICollection<string> unmetGuards)
+                public override UniTask ExecuteAsync(TState state, TTrigger trigger, ICollection<string> unmetGuards)
                 {
                     return _action(state, trigger, unmetGuards);
                 }

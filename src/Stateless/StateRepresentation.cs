@@ -9,7 +9,6 @@ namespace Stateless
         internal partial class StateRepresentation
         {
             readonly TState _state;
-            private readonly bool _retainSynchronizationContext;
 
             internal IDictionary<TTrigger, ICollection<TriggerBehaviour>> TriggerBehaviours { get; } = new Dictionary<TTrigger, ICollection<TriggerBehaviour>>();
             internal ICollection<EntryActionBehavior> EntryActions { get; } = new List<EntryActionBehavior>();
@@ -22,10 +21,9 @@ namespace Stateless
             readonly ICollection<StateRepresentation> _substates = new List<StateRepresentation>();
             public TState InitialTransitionTarget { get; private set; } = default;
 
-            public StateRepresentation(TState state, bool retainSynchronizationContext = false)
+            public StateRepresentation(TState state)
             {
                 _state = state;
-                _retainSynchronizationContext = retainSynchronizationContext;
             }
 
             internal ICollection<StateRepresentation> GetSubstates()

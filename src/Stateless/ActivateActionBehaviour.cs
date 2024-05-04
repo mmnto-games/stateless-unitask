@@ -1,5 +1,6 @@
 ﻿using System;
-using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
+
 
 namespace Stateless
 {
@@ -18,7 +19,7 @@ namespace Stateless
             internal Reflection.InvocationInfo Description { get; }
 
             public abstract void Execute();
-            public abstract Task ExecuteAsync();
+            public abstract UniTask ExecuteAsync();
 
             public class Sync : ActivateActionBehaviour
             {
@@ -35,7 +36,7 @@ namespace Stateless
                     _action();
                 }
 
-                public override Task ExecuteAsync()
+                public override UniTask  ExecuteAsync()
                 {
                     Execute();
                     return TaskResult.Done;
@@ -44,9 +45,9 @@ namespace Stateless
 
             public class Async : ActivateActionBehaviour
             {
-                readonly Func<Task> _action;
+                readonly Func<UniTask > _action;
 
-                public Async(TState state, Func<Task> action, Reflection.InvocationInfo actionDescription)
+                public Async(TState state, Func<UniTask> action, Reflection.InvocationInfo actionDescription)
                     : base(state, actionDescription)
                 {
                     _action = action;
@@ -59,7 +60,7 @@ namespace Stateless
                          "Use asynchronous version of Activate [ActivateAsync]");
                 }
 
-                public override Task ExecuteAsync()
+                public override UniTask ExecuteAsync()
                 {
                     return _action();
                 }

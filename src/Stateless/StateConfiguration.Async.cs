@@ -1,7 +1,7 @@
 ﻿#if TASKS
 
 using System;
-using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 
 namespace Stateless
 {
@@ -17,8 +17,8 @@ namespace Stateless
             /// <param name="guard">Function that must return true in order for the trigger to be accepted.</param>
             /// <param name="internalAction">The asynchronous action performed by the internal transition</param>
             /// <returns></returns>
-            [Obsolete("Use InternalTransitionAsyncIf(TTrigger, Func<bool>, Func<Task>) instead.")]
-            public StateConfiguration InternalTransitionAsyncIf<TArg0>(TTrigger trigger, Func<bool> guard, Func<Transition, Task> internalAction)
+            [Obsolete("Use InternalTransitionAsyncIf(TTrigger, Func<bool>, Func<UniTask>) instead.")]
+            public StateConfiguration InternalTransitionAsyncIf<TArg0>(TTrigger trigger, Func<bool> guard, Func<Transition, UniTask> internalAction)
             {
                 if (internalAction == null) throw new ArgumentNullException(nameof(internalAction));
 
@@ -34,8 +34,8 @@ namespace Stateless
             /// <param name="guard">Function that must return true in order for the trigger to be accepted.</param>
             /// <param name="internalAction">The asynchronous action performed by the internal transition</param>
             /// <returns></returns>
-            [Obsolete("Use InternalTransitionAsyncIf<TArg0>(TriggerWithParameters<TArg0>, Func<TArg0, bool>, Func<TArg0, Transition, Task>) instead.")]
-            public StateConfiguration InternalTransitionAsyncIf<TArg0>(TriggerWithParameters<TArg0> trigger, Func<bool> guard, Func<TArg0, Transition, Task> internalAction)
+            [Obsolete("Use InternalTransitionAsyncIf<TArg0>(TriggerWithParameters<TArg0>, Func<TArg0, bool>, Func<TArg0, Transition, UniTask>) instead.")]
+            public StateConfiguration InternalTransitionAsyncIf<TArg0>(TriggerWithParameters<TArg0> trigger, Func<bool> guard, Func<TArg0, Transition, UniTask> internalAction)
             {
                 if (trigger == null) throw new ArgumentNullException(nameof(trigger));
                 if (internalAction == null) throw new ArgumentNullException(nameof(internalAction));
@@ -53,8 +53,8 @@ namespace Stateless
             /// <param name="guard">Function that must return true in order for the trigger to be accepted.</param>
             /// <param name="internalAction">The asynchronous action performed by the internal transition</param>
             /// <returns></returns>
-            [Obsolete("Use InternalTransitionAsyncIf<TArg0, TArg1>(TriggerWithParameters<TArg0, TArg1>, Func<TArg0, TArg1, bool>, Func<TArg0, TArg1, Transition, Task>) instead.")]
-            public StateConfiguration InternalTransitionAsyncIf<TArg0, TArg1>(TriggerWithParameters<TArg0, TArg1> trigger, Func<bool> guard, Func<TArg0, TArg1, Transition, Task> internalAction)
+            [Obsolete("Use InternalTransitionAsyncIf<TArg0, TArg1>(TriggerWithParameters<TArg0, TArg1>, Func<TArg0, TArg1, bool>, Func<TArg0, TArg1, Transition, UniTask>) instead.")]
+            public StateConfiguration InternalTransitionAsyncIf<TArg0, TArg1>(TriggerWithParameters<TArg0, TArg1> trigger, Func<bool> guard, Func<TArg0, TArg1, Transition, UniTask> internalAction)
             {
                 if (trigger == null) throw new ArgumentNullException(nameof(trigger));
                 if (internalAction == null) throw new ArgumentNullException(nameof(internalAction));
@@ -75,8 +75,8 @@ namespace Stateless
             /// <param name="guard">Function that must return true in order for the trigger to be accepted.</param>
             /// <param name="internalAction">The asynchronous action performed by the internal transition</param>
             /// <returns></returns>
-            [Obsolete("Use InternalTransitionAsyncIf<TArg0, TArg1, TArg2>(TriggerWithParameters<TArg0, TArg1, TArg2>, Func<TArg0, TArg1, TArg2, bool>, Func<TArg0, TArg1, TArg2, Transition, Task>) instead.")]
-            public StateConfiguration InternalTransitionAsyncIf<TArg0, TArg1, TArg2>(TriggerWithParameters<TArg0, TArg1, TArg2> trigger, Func<bool> guard, Func<TArg0, TArg1, TArg2, Transition, Task> internalAction)
+            [Obsolete("Use InternalTransitionAsyncIf<TArg0, TArg1, TArg2>(TriggerWithParameters<TArg0, TArg1, TArg2>, Func<TArg0, TArg1, TArg2, bool>, Func<TArg0, TArg1, TArg2, Transition, UniTask>) instead.")]
+            public StateConfiguration InternalTransitionAsyncIf<TArg0, TArg1, TArg2>(TriggerWithParameters<TArg0, TArg1, TArg2> trigger, Func<bool> guard, Func<TArg0, TArg1, TArg2, Transition, UniTask> internalAction)
             {
                 if (trigger == null) throw new ArgumentNullException(nameof(trigger));
                 if (internalAction == null) throw new ArgumentNullException(nameof(internalAction));
@@ -95,8 +95,8 @@ namespace Stateless
             /// <param name="trigger">The accepted trigger</param>
             /// <param name="internalAction">The asynchronous action performed by the internal transition</param>
             /// <returns></returns>
-            [Obsolete("Use InternalTransitionAsync(TTrigger, Func<Transition, Task>) instead.")]
-            public StateConfiguration InternalTransitionAsync<TArg0>(TTrigger trigger, Func<Transition, Task> internalAction)
+            [Obsolete("Use InternalTransitionAsync(TTrigger, Func<Transition, UniTask>) instead.")]
+            public StateConfiguration InternalTransitionAsync<TArg0>(TTrigger trigger, Func<Transition, UniTask> internalAction)
             {
                 return InternalTransitionAsyncIf(trigger, () => true, internalAction);
             }
@@ -108,7 +108,7 @@ namespace Stateless
             /// <param name="guard">Function that must return true in order for the\r\n            /// trigger to be accepted.</param>
             /// <param name="internalAction">The asynchronous action performed by the internal transition</param>
             /// <returns></returns>
-            public StateConfiguration InternalTransitionAsyncIf(TTrigger trigger, Func<bool> guard, Func<Task> internalAction)
+            public StateConfiguration InternalTransitionAsyncIf(TTrigger trigger, Func<bool> guard, Func<UniTask> internalAction)
             {
                 if (internalAction == null) throw new ArgumentNullException(nameof(internalAction));
 
@@ -123,7 +123,7 @@ namespace Stateless
             /// <param name="guard">Function that must return true in order for the trigger to be accepted.</param>
             /// <param name="internalAction">The asynchronous action performed by the internal transition</param>
             /// <returns></returns>
-            public StateConfiguration InternalTransitionAsyncIf(TTrigger trigger, Func<bool> guard, Func<Transition, Task> internalAction)
+            public StateConfiguration InternalTransitionAsyncIf(TTrigger trigger, Func<bool> guard, Func<Transition, UniTask> internalAction)
             {
                 if (internalAction == null) throw new ArgumentNullException(nameof(internalAction));
 
@@ -139,7 +139,7 @@ namespace Stateless
             /// <param name="guard">Function that must return true in order for the trigger to be accepted.</param>
             /// <param name="internalAction">The asynchronous action performed by the internal transition</param>
             /// <returns></returns>
-            public StateConfiguration InternalTransitionAsyncIf<TArg0>(TriggerWithParameters<TArg0> trigger, Func<TArg0, bool> guard, Func<TArg0, Transition, Task> internalAction)
+            public StateConfiguration InternalTransitionAsyncIf<TArg0>(TriggerWithParameters<TArg0> trigger, Func<TArg0, bool> guard, Func<TArg0, Transition, UniTask> internalAction)
             {
                 if (trigger == null) throw new ArgumentNullException(nameof(trigger));
                 if (internalAction == null) throw new ArgumentNullException(nameof(internalAction));
@@ -157,7 +157,7 @@ namespace Stateless
             /// <param name="guard">Function that must return true in order for the trigger to be accepted.</param>
             /// <param name="internalAction">The asynchronous action performed by the internal transition</param>
             /// <returns></returns>
-            public StateConfiguration InternalTransitionAsyncIf<TArg0, TArg1>(TriggerWithParameters<TArg0, TArg1> trigger, Func<TArg0, TArg1, bool> guard, Func<TArg0, TArg1, Transition, Task> internalAction)
+            public StateConfiguration InternalTransitionAsyncIf<TArg0, TArg1>(TriggerWithParameters<TArg0, TArg1> trigger, Func<TArg0, TArg1, bool> guard, Func<TArg0, TArg1, Transition, UniTask> internalAction)
             {
                 if (trigger == null) throw new ArgumentNullException(nameof(trigger));
                 if (internalAction == null) throw new ArgumentNullException(nameof(internalAction));
@@ -178,7 +178,7 @@ namespace Stateless
             /// <param name="guard">Function that must return true in order for the trigger to be accepted.</param>
             /// <param name="internalAction">The asynchronous action performed by the internal transition</param>
             /// <returns></returns>
-            public StateConfiguration InternalTransitionAsyncIf<TArg0, TArg1, TArg2>(TriggerWithParameters<TArg0, TArg1, TArg2> trigger, Func<TArg0, TArg1, TArg2, bool> guard, Func<TArg0, TArg1, TArg2, Transition, Task> internalAction)
+            public StateConfiguration InternalTransitionAsyncIf<TArg0, TArg1, TArg2>(TriggerWithParameters<TArg0, TArg1, TArg2> trigger, Func<TArg0, TArg1, TArg2, bool> guard, Func<TArg0, TArg1, TArg2, Transition, UniTask> internalAction)
             {
                 if (trigger == null) throw new ArgumentNullException(nameof(trigger));
                 if (internalAction == null) throw new ArgumentNullException(nameof(internalAction));
@@ -196,7 +196,7 @@ namespace Stateless
             /// <param name="trigger">The accepted trigger</param>
             /// <param name="internalAction">The asynchronous action performed by the internal transition</param>
             /// <returns></returns>
-            public StateConfiguration InternalTransitionAsync(TTrigger trigger, Func<Task> internalAction)
+            public StateConfiguration InternalTransitionAsync(TTrigger trigger, Func<UniTask> internalAction)
             {
                 return InternalTransitionAsyncIf(trigger, () => true, internalAction);
             }
@@ -206,7 +206,7 @@ namespace Stateless
             /// <param name="trigger">The accepted trigger</param>
             /// <param name="internalAction">The asynchronous action performed by the internal transition</param>
             /// <returns></returns>
-            public StateConfiguration InternalTransitionAsync(TTrigger trigger, Func<Transition, Task> internalAction)
+            public StateConfiguration InternalTransitionAsync(TTrigger trigger, Func<Transition, UniTask> internalAction)
             {
                 return InternalTransitionAsyncIf(trigger, () => true, internalAction);
             }
@@ -217,7 +217,7 @@ namespace Stateless
             /// <param name="trigger">The accepted trigger</param>
             /// <param name="internalAction">The asynchronous action performed by the internal transition</param>
             /// <returns></returns>
-            public StateConfiguration InternalTransitionAsync<TArg0>(TriggerWithParameters<TArg0> trigger, Func<TArg0, Transition, Task> internalAction)
+            public StateConfiguration InternalTransitionAsync<TArg0>(TriggerWithParameters<TArg0> trigger, Func<TArg0, Transition, UniTask> internalAction)
             {
                 return InternalTransitionAsyncIf(trigger, t => true, internalAction);
             }
@@ -230,7 +230,7 @@ namespace Stateless
             /// <param name="trigger">The accepted trigger</param>
             /// <param name="internalAction">The asynchronous action performed by the internal transition</param>
             /// <returns></returns>
-            public StateConfiguration InternalTransitionAsync<TArg0, TArg1>(TriggerWithParameters<TArg0, TArg1> trigger, Func<TArg0, TArg1, Transition, Task> internalAction)
+            public StateConfiguration InternalTransitionAsync<TArg0, TArg1>(TriggerWithParameters<TArg0, TArg1> trigger, Func<TArg0, TArg1, Transition, UniTask> internalAction)
             {
                 return InternalTransitionAsyncIf(trigger, (t1, t2) => true, internalAction);
             }
@@ -244,7 +244,7 @@ namespace Stateless
             /// <param name="trigger">The accepted trigger</param>
             /// <param name="internalAction">The asynchronous action performed by the internal transition</param>
             /// <returns></returns>
-            public StateConfiguration InternalTransitionAsync<TArg0, TArg1, TArg2>(TriggerWithParameters<TArg0, TArg1, TArg2> trigger, Func<TArg0, TArg1, TArg2, Transition, Task> internalAction)
+            public StateConfiguration InternalTransitionAsync<TArg0, TArg1, TArg2>(TriggerWithParameters<TArg0, TArg1, TArg2> trigger, Func<TArg0, TArg1, TArg2, Transition, UniTask> internalAction)
             {
                 return InternalTransitionAsyncIf(trigger, (t1, t2, t3) => true, internalAction);
             }
@@ -256,7 +256,7 @@ namespace Stateless
             /// <param name="activateAction">Action to execute.</param>
             /// <param name="activateActionDescription">Action description.</param>
             /// <returns>The receiver.</returns>
-            public StateConfiguration OnActivateAsync(Func<Task> activateAction, string activateActionDescription = null)
+            public StateConfiguration OnActivateAsync(Func<UniTask> activateAction, string activateActionDescription = null)
             {
                 _representation.AddActivateAction(
                     activateAction,
@@ -271,7 +271,7 @@ namespace Stateless
             /// <param name="deactivateAction">Action to execute.</param>
             /// <param name="deactivateActionDescription">Action description.</param>
             /// <returns>The receiver.</returns>
-            public StateConfiguration OnDeactivateAsync(Func<Task> deactivateAction, string deactivateActionDescription = null)
+            public StateConfiguration OnDeactivateAsync(Func<UniTask> deactivateAction, string deactivateActionDescription = null)
             {
                 _representation.AddDeactivateAction(
                     deactivateAction,
@@ -286,7 +286,7 @@ namespace Stateless
             /// <param name="entryAction">Action to execute.</param>
             /// <param name="entryActionDescription">Action description.</param>
             /// <returns>The receiver.</returns>
-            public StateConfiguration OnEntryAsync(Func<Task> entryAction, string entryActionDescription = null)
+            public StateConfiguration OnEntryAsync(Func<UniTask> entryAction, string entryActionDescription = null)
             {
                 if (entryAction == null) throw new ArgumentNullException(nameof(entryAction));
 
@@ -303,7 +303,7 @@ namespace Stateless
             /// <param name="entryAction">Action to execute, providing details of the transition.</param>
             /// <param name="entryActionDescription">Action description.</param>
             /// <returns>The receiver.</returns>
-            public StateConfiguration OnEntryAsync(Func<Transition, Task> entryAction, string entryActionDescription = null)
+            public StateConfiguration OnEntryAsync(Func<Transition, UniTask> entryAction, string entryActionDescription = null)
             {
                 if (entryAction == null) throw new ArgumentNullException(nameof(entryAction));
 
@@ -321,7 +321,7 @@ namespace Stateless
             /// <param name="trigger">The trigger by which the state must be entered in order for the action to execute.</param>
             /// <param name="entryActionDescription">Action description.</param>
             /// <returns>The receiver.</returns>
-            public StateConfiguration OnEntryFromAsync(TTrigger trigger, Func<Task> entryAction, string entryActionDescription = null)
+            public StateConfiguration OnEntryFromAsync(TTrigger trigger, Func<UniTask> entryAction, string entryActionDescription = null)
             {
                 if (entryAction == null) throw new ArgumentNullException(nameof(entryAction));
 
@@ -340,7 +340,7 @@ namespace Stateless
             /// <param name="trigger">The trigger by which the state must be entered in order for the action to execute.</param>
             /// <param name="entryActionDescription">Action description.</param>
             /// <returns>The receiver.</returns>
-            public StateConfiguration OnEntryFromAsync(TTrigger trigger, Func<Transition, Task> entryAction, string entryActionDescription = null)
+            public StateConfiguration OnEntryFromAsync(TTrigger trigger, Func<Transition, UniTask> entryAction, string entryActionDescription = null)
             {
                 if (entryAction == null) throw new ArgumentNullException(nameof(entryAction));
 
@@ -360,7 +360,7 @@ namespace Stateless
             /// <param name="trigger">The trigger by which the state must be entered in order for the action to execute.</param>
             /// <param name="entryActionDescription">Action description.</param>
             /// <returns>The receiver.</returns>
-            public StateConfiguration OnEntryFromAsync<TArg0>(TriggerWithParameters<TArg0> trigger, Func<TArg0, Task> entryAction, string entryActionDescription = null)
+            public StateConfiguration OnEntryFromAsync<TArg0>(TriggerWithParameters<TArg0> trigger, Func<TArg0, UniTask> entryAction, string entryActionDescription = null)
             {
                 if (trigger == null) throw new ArgumentNullException(nameof(trigger));
                 if (entryAction == null) throw new ArgumentNullException(nameof(entryAction));
@@ -382,7 +382,7 @@ namespace Stateless
             /// <param name="trigger">The trigger by which the state must be entered in order for the action to execute.</param>
             /// <param name="entryActionDescription">Action description.</param>
             /// <returns>The receiver.</returns>
-            public StateConfiguration OnEntryFromAsync<TArg0>(TriggerWithParameters<TArg0> trigger, Func<TArg0, Transition, Task> entryAction, string entryActionDescription = null)
+            public StateConfiguration OnEntryFromAsync<TArg0>(TriggerWithParameters<TArg0> trigger, Func<TArg0, Transition, UniTask> entryAction, string entryActionDescription = null)
             {
                 if (trigger == null) throw new ArgumentNullException(nameof(trigger));
                 if (entryAction == null) throw new ArgumentNullException(nameof(entryAction));
@@ -405,7 +405,7 @@ namespace Stateless
             /// <param name="trigger">The trigger by which the state must be entered in order for the action to execute.</param>
             /// <param name="entryActionDescription">Action description.</param>
             /// <returns>The receiver.</returns>
-            public StateConfiguration OnEntryFromAsync<TArg0, TArg1>(TriggerWithParameters<TArg0, TArg1> trigger, Func<TArg0, TArg1, Task> entryAction, string entryActionDescription = null)
+            public StateConfiguration OnEntryFromAsync<TArg0, TArg1>(TriggerWithParameters<TArg0, TArg1> trigger, Func<TArg0, TArg1, UniTask> entryAction, string entryActionDescription = null)
             {
                 if (trigger == null) throw new ArgumentNullException(nameof(trigger));
                 if (entryAction == null) throw new ArgumentNullException(nameof(entryAction));
@@ -428,7 +428,7 @@ namespace Stateless
             /// <param name="trigger">The trigger by which the state must be entered in order for the action to execute.</param>
             /// <param name="entryActionDescription">Action description.</param>
             /// <returns>The receiver.</returns>
-            public StateConfiguration OnEntryFromAsync<TArg0, TArg1>(TriggerWithParameters<TArg0, TArg1> trigger, Func<TArg0, TArg1, Transition, Task> entryAction, string entryActionDescription = null)
+            public StateConfiguration OnEntryFromAsync<TArg0, TArg1>(TriggerWithParameters<TArg0, TArg1> trigger, Func<TArg0, TArg1, Transition, UniTask> entryAction, string entryActionDescription = null)
             {
                 if (trigger == null) throw new ArgumentNullException(nameof(trigger));
                 if (entryAction == null) throw new ArgumentNullException(nameof(entryAction));
@@ -452,7 +452,7 @@ namespace Stateless
             /// <param name="trigger">The trigger by which the state must be entered in order for the action to execute.</param>
             /// <param name="entryActionDescription">Action description.</param>
             /// <returns>The receiver.</returns>
-            public StateConfiguration OnEntryFromAsync<TArg0, TArg1, TArg2>(TriggerWithParameters<TArg0, TArg1, TArg2> trigger, Func<TArg0, TArg1, TArg2, Task> entryAction, string entryActionDescription = null)
+            public StateConfiguration OnEntryFromAsync<TArg0, TArg1, TArg2>(TriggerWithParameters<TArg0, TArg1, TArg2> trigger, Func<TArg0, TArg1, TArg2, UniTask> entryAction, string entryActionDescription = null)
             {
                 if (trigger == null) throw new ArgumentNullException(nameof(trigger));
                 if (entryAction == null) throw new ArgumentNullException(nameof(entryAction));
@@ -477,7 +477,7 @@ namespace Stateless
             /// <param name="trigger">The trigger by which the state must be entered in order for the action to execute.</param>
             /// <param name="entryActionDescription">Action description.</param>
             /// <returns>The receiver.</returns>
-            public StateConfiguration OnEntryFromAsync<TArg0, TArg1, TArg2>(TriggerWithParameters<TArg0, TArg1, TArg2> trigger, Func<TArg0, TArg1, TArg2, Transition, Task> entryAction, string entryActionDescription = null)
+            public StateConfiguration OnEntryFromAsync<TArg0, TArg1, TArg2>(TriggerWithParameters<TArg0, TArg1, TArg2> trigger, Func<TArg0, TArg1, TArg2, Transition, UniTask> entryAction, string entryActionDescription = null)
             {
                 if (trigger == null) throw new ArgumentNullException(nameof(trigger));
                 if (entryAction == null) throw new ArgumentNullException(nameof(entryAction));
@@ -498,7 +498,7 @@ namespace Stateless
             /// <param name="exitAction">Action to execute.</param>
             /// <param name="exitActionDescription">Action description.</param>
             /// <returns>The receiver.</returns>
-            public StateConfiguration OnExitAsync(Func<Task> exitAction, string exitActionDescription = null)
+            public StateConfiguration OnExitAsync(Func<UniTask> exitAction, string exitActionDescription = null)
             {
                 if (exitAction == null) throw new ArgumentNullException(nameof(exitAction));
 
@@ -515,7 +515,7 @@ namespace Stateless
             /// <param name="exitAction">Action to execute, providing details of the transition.</param>
             /// <param name="exitActionDescription">Action description.</param>
             /// <returns>The receiver.</returns>
-            public StateConfiguration OnExitAsync(Func<Transition, Task> exitAction, string exitActionDescription = null)
+            public StateConfiguration OnExitAsync(Func<Transition, UniTask> exitAction, string exitActionDescription = null)
             {
                 _representation.AddExitAction(
                     exitAction,

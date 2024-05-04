@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 
 namespace Stateless
 {
@@ -8,7 +8,7 @@ namespace Stateless
         internal abstract class InternalActionBehaviour
         {
             public abstract void Execute(Transition transition, object[] args);
-            public abstract Task ExecuteAsync(Transition transition, object[] args);
+            public abstract UniTask ExecuteAsync(Transition transition, object[] args);
 
             public class Sync : InternalActionBehaviour
             {
@@ -24,7 +24,7 @@ namespace Stateless
                     _action(transition, args);
                 }
 
-                public override Task ExecuteAsync(Transition transition, object[] args)
+                public override UniTask ExecuteAsync(Transition transition, object[] args)
                 {
                     Execute(transition, args);
                     return TaskResult.Done;
@@ -33,9 +33,9 @@ namespace Stateless
 
             public class Async : InternalActionBehaviour
             {
-                readonly Func<Transition, object[], Task> _action;
+                readonly Func<Transition, object[], UniTask> _action;
 
-                public Async(Func<Transition, object[], Task> action)
+                public Async(Func<Transition, object[], UniTask> action)
                 {
                     _action = action;
                 }
@@ -47,7 +47,7 @@ namespace Stateless
                          "Use asynchronous version of Fire [FireAsync]");
                 }
 
-                public override Task ExecuteAsync(Transition transition, object[] args)
+                public override UniTask ExecuteAsync(Transition transition, object[] args)
                 {
                     return _action(transition, args);
                 }

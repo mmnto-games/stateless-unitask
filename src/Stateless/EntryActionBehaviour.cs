@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 
 namespace Stateless
 {
@@ -15,7 +15,7 @@ namespace Stateless
             public Reflection.InvocationInfo Description { get; }
 
             public abstract void Execute(Transition transition, object[] args);
-            public abstract Task ExecuteAsync(Transition transition, object[] args);
+            public abstract UniTask ExecuteAsync(Transition transition, object[] args);
 
             public class Sync : EntryActionBehavior
             {
@@ -31,7 +31,7 @@ namespace Stateless
                     _action(transition, args);
                 }
 
-                public override Task ExecuteAsync(Transition transition, object[] args)
+                public override UniTask ExecuteAsync(Transition transition, object[] args)
                 {
                     Execute(transition, args);
                     return TaskResult.Done;
@@ -54,7 +54,7 @@ namespace Stateless
                         base.Execute(transition, args);
                 }
 
-                public override Task ExecuteAsync(Transition transition, object[] args)
+                public override UniTask ExecuteAsync(Transition transition, object[] args)
                 {
                     Execute(transition, args);
                     return TaskResult.Done;
@@ -63,9 +63,9 @@ namespace Stateless
 
             public class Async : EntryActionBehavior
             {
-                readonly Func<Transition, object[], Task> _action;
+                readonly Func<Transition, object[], UniTask> _action;
 
-                public Async(Func<Transition, object[], Task> action, Reflection.InvocationInfo description) : base(description)
+                public Async(Func<Transition, object[], UniTask> action, Reflection.InvocationInfo description) : base(description)
                 {
                     _action = action;
                 }
@@ -77,7 +77,7 @@ namespace Stateless
                          "Use asynchronous version of Fire [FireAsync]");
                 }
 
-                public override Task ExecuteAsync(Transition transition, object[] args)
+                public override UniTask ExecuteAsync(Transition transition, object[] args)
                 {
                     return _action(transition, args);
                 }
@@ -87,7 +87,7 @@ namespace Stateless
             {
                 internal TTriggerType Trigger { get; }
 
-                public AsyncFrom(TTriggerType trigger, Func<Transition, object[], Task> action, Reflection.InvocationInfo description)
+                public AsyncFrom(TTriggerType trigger, Func<Transition, object[], UniTask> action, Reflection.InvocationInfo description)
                     : base(action, description)
                 {
                     Trigger = trigger;
@@ -101,7 +101,7 @@ namespace Stateless
                     }
                 }
 
-                public override Task ExecuteAsync(Transition transition, object[] args)
+                public override UniTask ExecuteAsync(Transition transition, object[] args)
                 {
                     if (transition.Trigger.Equals(Trigger))
                     {

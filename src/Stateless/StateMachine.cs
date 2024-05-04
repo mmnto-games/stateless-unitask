@@ -90,11 +90,6 @@ namespace Stateless
         }
 
         /// <summary>
-        /// For certain situations, it is essential that the SynchronizationContext is retained for all delegate calls.
-        /// </summary>
-        public bool RetainSynchronizationContext { get; set; } = false;
-
-        /// <summary>
         /// Default constructor
         /// </summary>
         StateMachine()
@@ -160,7 +155,7 @@ namespace Stateless
         /// </summary>
         public StateMachineInfo GetInfo()
         {
-            var initialState = StateInfo.CreateStateInfo(new StateRepresentation(_initialState, RetainSynchronizationContext));
+            var initialState = StateInfo.CreateStateInfo(new StateRepresentation(_initialState));
 
             var representations = _stateConfiguration.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 
@@ -170,7 +165,7 @@ namespace Stateless
             var reachable = behaviours
                 .Distinct()
                 .Except(representations.Keys)
-                .Select(underlying => new StateRepresentation(underlying, RetainSynchronizationContext))
+                .Select(underlying => new StateRepresentation(underlying))
                 .ToArray();
 
             foreach (var representation in reachable)
@@ -188,7 +183,7 @@ namespace Stateless
         {
             if (!_stateConfiguration.TryGetValue(state, out StateRepresentation result))
             {
-                result = new StateRepresentation(state, RetainSynchronizationContext);
+                result = new StateRepresentation(state);
                 _stateConfiguration.Add(state, result);
             }
 
